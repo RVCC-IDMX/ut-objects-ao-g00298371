@@ -14,40 +14,40 @@
    http://bit.ly/2NjS274
 */
 
-/**
+/*
   Here's a Lookup Table for the color codes for the first 2 bands, each color represents
-  a digit from 0 to 9.
-    const colorCodes = {
-     black: 0,
-     brown: 1,
-     red: 2,
-     orange: 3,
-     yellow: 4,
-     green: 5,
-     blue: 6,
-     violet: 7,
-     grey: 8,
-     white: 9,
-  };
+  a digit from 0 to 9. */
 
-    Here's a Lookup Table for the Multipliers. Each color represents the multiplication factor
-    that is used with the value from the first 2 bands.
+const colorCodes = {
+  black: 0,
+  brown: 1,
+  red: 2,
+  orange: 3,
+  yellow: 4,
+  green: 5,
+  blue: 6,
+  violet: 7,
+  grey: 8,
+  white: 9,
+};
 
-    const multiplierCodes = {
-     black:          1,
-     brown:         10,
-     red:          100,
-     orange:      1000,
-     yellow:     10000,
-     green:     100000,
-     blue:     1000000,
-     violet:  10000000,
-     grey:   100000000,
-     white: 1000000000,
-     gold: 0.1,
-     silver: 0.01
-  };
- */
+/* Here's a Lookup Table for the Multipliers. Each color represents the multiplication factor
+    that is used with the value from the first 2 bands. */
+
+const multiplierCodes = {
+  black: 1,
+  brown: 10,
+  red: 100,
+  orange: 1000,
+  yellow: 10000,
+  green: 100000,
+  blue: 1000000,
+  violet: 10000000,
+  grey: 100000000,
+  white: 1000000000,
+  gold: 0.1,
+  silver: 0.01,
+};
 
 /**
  * Returns the digit as a number from the resistor color code
@@ -62,7 +62,21 @@
  * then use the copied object like a lookup table
  */
 function getColorValue(color) {
-  // write your code here & return value
+  const privateColorCodes = {
+    black: 0,
+    brown: 1,
+    red: 2,
+    orange: 3,
+    yellow: 4,
+    green: 5,
+    blue: 6,
+    violet: 7,
+    grey: 8,
+    white: 9,
+  };
+
+  const digit = privateColorCodes[color];
+  return digit;
 }
 
 /**
@@ -79,7 +93,23 @@ function getColorValue(color) {
  * then use the copied object like a lookup table
  */
 function getMultiplierValue(color) {
-  // write your code here & return value
+  const privateMultiplierCodes = {
+    black: 1,
+    brown: 10,
+    red: 100,
+    orange: 1000,
+    yellow: 10000,
+    green: 100000,
+    blue: 1000000,
+    violet: 10000000,
+    grey: 100000000,
+    white: 1000000000,
+    gold: 0.1,
+    silver: 0.01,
+  };
+
+  const multiplier = privateMultiplierCodes[color];
+  return multiplier;
 }
 
 /**
@@ -106,7 +136,20 @@ function getMultiplierValue(color) {
  *
  */
 function getThreeBandValue(bands) {
-  // write your code here & return value
+  // Retrieve the digits and multiplier using the previously defined functions
+  const digit1 = getColorValue(bands.color1);
+  const digit2 = getColorValue(bands.color2);
+  const multiplier = getMultiplierValue(bands.multiplier);
+
+  let value = (digit1 * 10 + digit2) * multiplier;
+
+  if (bands.multiplier === 'gold') {
+    value = Math.floor(value * 10) / 10;
+  } else if (bands.multiplier === 'silver') {
+    value = Math.floor(value * 100) / 100;
+  }
+
+  return value;
 }
 
 /**
@@ -125,13 +168,25 @@ function getThreeBandValue(bands) {
  * example: 260000000  => 260M
  * example: 2600000000 => 2.6G // G = 1 billion
  *
- *  Hint: I found a solution from stackoverflow
+ * Hint: I found a solution from stackoverflow
  * Be careful, if you copy older code make sure you replace var with
  * either const or let
  *
  */
 function formatNumber(val) {
-  // write your code here & return value
+  if (val === 0) {
+    return '0';
+  }
+
+  const metricNotations = ['G', 'M', 'k'];
+  let notationIndex = 0;
+
+  while (val >= 1000 && notationIndex < metricNotations.length - 1) {
+    val /= 1000;
+    notationIndex = +notationIndex;
+  }
+
+  return `${val}${metricNotations[notationIndex] || ''}`;
 }
 
 /**
@@ -150,7 +205,18 @@ function formatNumber(val) {
  * example: 'green' => '±0.5%'
  */
 function getTolerance(color) {
-  // write your code here & return value
+  const toleranceCodes = {
+    brown: '±1%',
+    red: '±2%',
+    green: '±0.5%',
+    blue: '±0.25%',
+    violet: '±0.1%',
+    grey: '±0.05%',
+    gold: '±5%',
+    silver: '±10%',
+  };
+
+  return toleranceCodes[color] || '';
 }
 
 /**
@@ -182,7 +248,19 @@ function getTolerance(color) {
  * must use functions in this file to build the string using a template literal
  */
 function getResistorOhms(bands) {
-  // write your code here & return value
+  const value = getThreeBandValue({
+    color1: bands.color1,
+    color2: bands.color2,
+    multiplier: bands.multiplier,
+    tolerance: bands.tolerance,
+  });
+
+  const formattedValue = formatNumber(value);
+  const tolerance = getTolerance(bands.tolerance);
+
+  const unit = value >= 1000000 ? 'M' : 'k';
+
+  return `Resistor value: ${formattedValue} ${unit}Ohms ${tolerance}`;
 }
 
 module.exports = {
