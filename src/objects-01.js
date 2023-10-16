@@ -27,7 +27,14 @@
  *
  */
 function makePetObject() {
-  // write your code here & return value
+  return {
+    name: 'Jasper',
+    age: 2,
+    species: 'Rabbit',
+    hasFur: true,
+    legs: 4,
+    bestFriend: 'Olivia',
+  };
 }
 
 /**
@@ -39,7 +46,7 @@ function makePetObject() {
  * Mozilla - https://mzl.la/3iu0uh4
  */
 function getPetName(pet) {
-  // write your code here & return value
+  return pet.name;
 }
 
 /**
@@ -51,8 +58,7 @@ function getPetName(pet) {
  * Mozilla - https://mzl.la/39ZgjHP
  */
 function getPetAge(pet) {
-  // eslint-disable-next-line dot-notation
-  // write your code here & return value
+  return pet['age'];
 }
 
 /**
@@ -69,59 +75,62 @@ function getPetAge(pet) {
  * permanently making a change to the passed object.
  */
 function setPetAge(pet, age) {
-  // write your code here & return value
+  pet.age = age;
+  return pet;
 }
 
 /**
- * Returns whether the pet's is less than 1
- * @param {object} pet  - the object as defined in makePetObject()
- * @returns {boolean} - true if the pet's age is < 1 , false otherwise
- */
+   * Returns whether the pet's is less than 1
+   * @param {object} pet  - the object as defined in makePetObject()
+   * @returns {boolean} - true if the pet's age is < 1 , false otherwise
+   */
 function isPetABaby(pet) {
-  // write your code here & return value
+  return pet.age < 1;
 }
 
 /**
- * Adds a new property to the pet object.
- * @param {object} pet - the  pet object as defined in makePetObject()
- * @param {string} str- a string indicating the breed of the pet
- * @returns {object} - the same pet object but with a new property
- * breed must be the property name that is added
- */
+   * Adds a new property to the pet object.
+   * @param {object} pet - the  pet object as defined in makePetObject()
+   * @param {string} str- a string indicating the breed of the pet
+   * @returns {object} - the same pet object but with a new property
+   * breed must be the property name that is added
+   */
 function addPetBreed(pet, str) {
-  // write your code here & return value
+  pet.breed = str;
+  return pet;
 }
 
 /**
- * Deletes the bestFriend property from the pet object.
- * @param {object} pet - the object as defined in makePetObject()
- * @returns {object} - the same pet object but with BF deleted
- * book - https://bit.ly/3FfDYCq
- * Mozilla - https://mzl.la/3FmDpqv
- */
+   * Deletes the bestFriend property from the pet object.
+   * @param {object} pet - the object as defined in makePetObject()
+   * @returns {object} - the same pet object but with BF deleted
+   * book - https://bit.ly/3FfDYCq
+   * Mozilla - https://mzl.la/3FmDpqv
+   */
 function deletePetBestFriend(pet) {
-  // write your code here & return value
+  delete pet.bestFriend;
+  return pet;
 }
 
 /**
- * Returns an array of all the properties of the pet object.
- * @param {object} pet - the object as defined in makePetObject()
- * @returns {array} - an array of the property names in the object
- * book - https://bit.ly/3uz2fOy
- * Mozilla - https://mzl.la/3ipqBW8
- */
+   * Returns an array of all the properties of the pet object.
+   * @param {object} pet - the object as defined in makePetObject()
+   * @returns {array} - an array of the property names in the object
+   * book - https://bit.ly/3uz2fOy
+   * Mozilla - https://mzl.la/3ipqBW8
+   */
 function getPetKeys(pet) {
-  // write your code here & return value
+  return Object.keys(pet);
 }
 
 /**
- * Returns the number of properties in the pet object.
- * @param {object} pet - the object as defined in makePetObject()
- * @returns {number} - the number of properties in the object
- * book - https://bit.ly/3uz2fOy
- */
+   * Returns the number of properties in the pet object.
+   * @param {object} pet - the object as defined in makePetObject()
+   * @returns {number} - the number of properties in the object
+   * book - https://bit.ly/3uz2fOy
+   */
 function getPetObjLength(pet) {
-  // write your code here & return value
+  return Object.keys(pet).length;
 }
 
 module.exports = {
