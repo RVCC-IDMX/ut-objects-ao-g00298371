@@ -173,20 +173,21 @@ function getThreeBandValue(bands) {
  * either const or let
  *
  */
-function formatNumber(val) {
-  if (val === 0) {
-    return '0';
+function formatNumber(value) {
+  if (value < 1000) {
+    return `${value}`;
   }
 
-  const metricNotations = ['G', 'M', 'k'];
+  let val = value;
+  const metricNotations = ['', 'k', 'M', 'G'];
   let notationIndex = 0;
 
   while (val >= 1000 && notationIndex < metricNotations.length - 1) {
+    // eslint-disable-next-line no-param-reassign
     val /= 1000;
-    notationIndex = +notationIndex;
+    notationIndex += 1;
   }
-
-  return `${val}${metricNotations[notationIndex] || ''}`;
+  return `${val}${metricNotations[notationIndex]}`;
 }
 
 /**
@@ -258,9 +259,7 @@ function getResistorOhms(bands) {
   const formattedValue = formatNumber(value);
   const tolerance = getTolerance(bands.tolerance);
 
-  const unit = value >= 1000000 ? 'M' : 'k';
-
-  return `Resistor value: ${formattedValue} ${unit}Ohms ${tolerance}`;
+  return `Resistor value: ${formattedValue} Ohms ${tolerance}`;
 }
 
 module.exports = {
